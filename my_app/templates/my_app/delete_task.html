@@ -1,0 +1,12 @@
+{% extends 'my_app/main.html' %}
+
+{% block content %}
+<h4>Are you sure you want to delete task {{task.name}}?</h4>
+<hr>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="yes">
+    <input action="{% url 'tasks' %}" type="submit" value="no">
+</form>
+{% endblock content %}

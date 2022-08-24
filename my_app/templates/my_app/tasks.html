@@ -1,0 +1,29 @@
+{% extends 'my_app/main.html' %}
+
+{% block content %}
+<html>
+  <head>
+        <title>Tasks page</title>
+  </head>
+  <body>
+        {% for task in tasks %}
+            <div>
+                <li>
+                   <!-- trzeba znalesc inny sposob na task.id bo zle pokazuje -->
+                     {{task.name}} uploaded {{task.pub_date|timesince}} ago
+                    <a href="{% url 'delete-task' task.id %}">Delete</a>
+                    <hr>
+                    
+                </li>
+            </div>
+        {% endfor %}
+        <br>
+        <div>
+            <a method="GET" href="{% url 'create-task' %}">Add Task</a>
+        </div>
+
+  </body>
+
+</html>
+{% endblock content %}
+
