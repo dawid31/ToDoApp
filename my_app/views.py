@@ -9,7 +9,19 @@ from django.urls import reverse
 
 # Create your views here.
 def dashboard(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse('login'))
     return render(request, 'my_app/dashboard.html')
+
+
+def register_user(request):
+    return render(request, 'my_app/register.html')
+
+
+
+def login_user(request):
+    return render(request, 'my_app/login.html')
+
 
 def tasks(request): 
     tasks = Task.objects.all()
@@ -38,13 +50,7 @@ def delete_task(request, task_id):
     return render(request, 'my_app/delete_task.html', context)
 
 
-def register_user(request):
-    return render(request, 'my_app/register.html')
 
-
-
-def login_user(request):
-    return render(request, 'my_app/login.html')
 
 
 

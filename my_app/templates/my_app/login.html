@@ -2,8 +2,15 @@
 
 {% block content %}
 
-login page :D
-work in progress :P
+<form action="" method="POST">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="Username">
+    <input type="password" name="password" placeholder="Password">
+    <input type="submit" name="login">
 
+
+
+
+</form>
 {% endblock content %}
 
