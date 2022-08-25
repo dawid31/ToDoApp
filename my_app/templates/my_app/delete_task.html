@@ -7,6 +7,10 @@
 <form action="" method="POST">
     {% csrf_token %}
     <input type="submit" value="yes">
-    <input action="{% url 'tasks' %}" type="submit" value="no">
 </form>
+
+<form action="{% url 'tasks' %}">
+    <input type="submit" value="no">
+</form>
+
 {% endblock content %}
