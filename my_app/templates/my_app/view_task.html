@@ -1,0 +1,17 @@
+{% extends 'my_app/main.html' %}
+
+{% block content %}
+    <li>
+        {{task.name}}
+        Its your {{task.id}} task, you uploaded it {{task.pub_date|timesince}} ago
+    </li>
+
+    <button type="button" class="btn btn-dark">
+        <a href="{% url 'edit-task' task.id %}">Edit</a>
+    </button>
+
+    <button type="button" class="btn btn-dark">
+        <a href="{% url 'delete-task' task.id %}">Delete</a>
+    </button>
+
+{% endblock content %}

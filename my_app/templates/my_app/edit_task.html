@@ -1,5 +1,12 @@
+{% extends 'my_app/main.html' %}
+
+{% block content %}
 <form method="POST" action="">
     {% csrf_token %}
     <input type="text" name="content" placeholder="{{task.name}}">
     <input type="submit" value="edit">
 </form>
+                    
+{% endblock content %}
+
+

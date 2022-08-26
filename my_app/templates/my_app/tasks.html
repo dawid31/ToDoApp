@@ -4,27 +4,61 @@
 <html>
   <head>
         <title>Tasks page</title>
+    <style>
+        .tasks_board
+        {
+            width: 500px;
+            background-color:#7d7979;
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 0.25rem 0 0 0.25rem !important;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        body
+        {
+            text-align: center;
+        }
+        .task_container
+        {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .add_task
+        {
+            margin-bottom: 5px;
+        }
+    </style>
+
   </head>
   <body>
+    <div class="tasks_board">
+        <br>
         {% for task in tasks %}
-            <div>
-                <li>
-                   <!-- trzeba znalesc inny sposob na task.id bo zle pokazuje -->
-                   <!-- uploaded {{task.pub_date|timesince}} ago -->
-                     {{task.name}} 
+            <div class="task_container">
+                   <button type="button" class="btn btn-dark">
+                    {{task.name}}
+                    <a href="{% url 'view-task' task.id %}">View</a>
                     <a href="{% url 'edit-task' task.id %}">Edit</a>
                     <a href="{% url 'delete-task' task.id %}">Delete</a>
-
-                    <hr>
-                    
-                </li>
+                    </button>
+                    <br>
             </div>
         {% endfor %}
         <br>
         <div>
-            <a method="GET" href="{% url 'create-task' %}">Add Task</a>
+            <form action="{% url 'create-task' %}">
+                <button type="button" class="btn btn-dark">
+                    <a method="GET" href="{% url 'create-task' %}">Add Task</a>
+                </button>
+            </form>
         </div>
 
+    </div>
+        
   </body>
 
 </html>

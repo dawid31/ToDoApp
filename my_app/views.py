@@ -3,12 +3,16 @@ from datetime import date
 from .forms import TaskForm, UserRegisterForm
 from .models import *
 
+
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
 
 from django.contrib import messages
 
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -60,27 +64,31 @@ def logout_user(request):
     logout(request)
     return render(request, 'my_app/logout.html')
 
-
-def tasks(request): 
+def tasks(request):
     tasks = Task.objects.all()
-    context = {'tasks': tasks,}
+    context = {'tasks': tasks}
     return render(request, 'my_app/tasks.html', context)
-
 
 def create_task(request):
     task_form = TaskForm()
     if request.method == "POST":
+
         task_form = TaskForm(request.POST)
         if task_form.is_valid():
             task_form.save()
             return HttpResponseRedirect(reverse('tasks'))
-
     context = {'task_form': task_form}
     return render(request, 'my_app/create_task.html', context)
+
+def view_task(request, task_id):
+    task = Task.objects.get(pk=task_id)
+    context = {'task': task}
+    return render(request, 'my_app/view_task.html', context)
 
 def edit_task(request, task_id):
     task = Task.objects.get(pk=task_id)
     context = {'task': task}
+
     if request.method == "POST":
         task.name = request.POST.get('content')
         task.save()
@@ -88,7 +96,6 @@ def edit_task(request, task_id):
         return HttpResponseRedirect(reverse('tasks'))
 
     return render(request, 'my_app/edit_task.html', context)
-
 
 def delete_task(request, task_id):
     task = Task.objects.get(pk=task_id)
