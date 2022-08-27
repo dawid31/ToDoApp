@@ -31,15 +31,43 @@
         {
             margin-bottom: 5px;
         }
+       
+        .add_form
+        {
+            font-size: large;
+            height: 50px;
+            width: 450px;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+        .btn-dark
+        {
+            width: 450px;
+            border-radius: 0.25rem 0 0 0.25rem !important;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        .submit_btn
+        {   
+            background-color: #20a35d;
+            border-radius: 0.25rem 0 0 0.25rem !important;
+
+        }
     </style>
 
   </head>
   <body>
     <div class="tasks_board">
-        <br>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input class="add_form" type="text" placeholder="Add new task..." name="content">
+            <br>
+                <input class="submit_btn" type="submit" value="submit :)">
+        </form>
         {% for task in tasks %}
             <div class="task_container">
-                   <button type="button" class="btn btn-dark">
+                   <button type="button" class="btn-dark">
                     {{task.name}}
                     <a href="{% url 'view-task' task.id %}">View</a>
                     <a href="{% url 'edit-task' task.id %}">Edit</a>
@@ -50,11 +78,6 @@
         {% endfor %}
         <br>
         <div>
-            <form action="{% url 'create-task' %}">
-                <button type="button" class="btn btn-dark">
-                    <a method="GET" href="{% url 'create-task' %}">Add Task</a>
-                </button>
-            </form>
         </div>
 
     </div>

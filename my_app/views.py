@@ -51,6 +51,10 @@ def login_user(request):
             user = User.objects.get(username=username)
         except:
             messages.error(request, 'User does not exist.')
+        try:
+            password = User.objects.get(password=password)
+        except:
+            messages.error(request, 'Invalid pasword')
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
@@ -64,26 +68,22 @@ def logout_user(request):
     logout(request)
     return render(request, 'my_app/logout.html')
 
+
+@login_required
 def tasks(request):
-    tasks = Task.objects.all()
+    tasks = Task.objects.filter(user=request.user)
     context = {'tasks': tasks}
+    if request.method == "POST":
+        task_form = request.POST.get('content')
+        Task.objects.create(name=task_form, user=request.user)
     return render(request, 'my_app/tasks.html', context)
 
-def create_task(request):
-    task_form = TaskForm()
-    if request.method == "POST":
-
-        task_form = TaskForm(request.POST)
-        if task_form.is_valid():
-            task_form.save()
-            return HttpResponseRedirect(reverse('tasks'))
-    context = {'task_form': task_form}
-    return render(request, 'my_app/create_task.html', context)
 
 def view_task(request, task_id):
     task = Task.objects.get(pk=task_id)
     context = {'task': task}
     return render(request, 'my_app/view_task.html', context)
+
 
 def edit_task(request, task_id):
     task = Task.objects.get(pk=task_id)
@@ -96,6 +96,7 @@ def edit_task(request, task_id):
         return HttpResponseRedirect(reverse('tasks'))
 
     return render(request, 'my_app/edit_task.html', context)
+
 
 def delete_task(request, task_id):
     task = Task.objects.get(pk=task_id)
